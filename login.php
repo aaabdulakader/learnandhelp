@@ -34,5 +34,6 @@
       <input type="submit" id="submit-login" value="Login"/>
 	</form>
   <a href="create_account.php" id="create_account_button">Create Account</a>
+  <a href="forgot_password.php" id="create_account_button">Forgot Password</a>
   </body>
 </html>
