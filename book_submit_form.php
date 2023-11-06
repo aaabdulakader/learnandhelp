@@ -74,20 +74,31 @@ if($action == "admin_edit_book") {
 			available = '$available'
 			WHERE id = '$id';";
 } elseif($action == 'admin_add_book') {
-	$sql = "INSERT INTO books VALUES (
-		'NULL',
-		'$title',
-		'$author',
-		'$publisher', 
-		'$publishyear',
-		'$numpages',
-	    '$price',
-	    'NULL',
-		'$gradelevel',
-		'$available',
-		CURRENT_TIME(),
-	    CURRENT_TIME());";
+	$image = 'images/books/default.png';  // Default image in case no image is provided
+	if (!empty($_FILES['file']['name'])) {
+        $imageFileName = $_FILES['file']['name'];
+        $imageTmpLocation = $_FILES['file']['tmp_name'];
+        $imageDestination = 'images/books/' . $imageFileName;
+
+        if (move_uploaded_file($imageTmpLocation, $imageDestination)) {
+            $image = $imageDestination;  // Set the image path to the uploaded image
+        }
+    }
+
+    $sql = "INSERT INTO books (title, author, publisher, publishYear, numPages, price, image, grade_level, available)
+            VALUES (
+                '$title',
+                '$author',
+                '$publisher',
+                '$publishyear',
+                '$numpages', 
+                '$price',
+                '$image', 
+                '$gradelevel',
+                '$available'
+            );";
 }
+
 
 if (!mysqli_query($connection, $sql)) {
 	echo("Error description: " . mysqli_error($connection));
